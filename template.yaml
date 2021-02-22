@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  aws-sam-example-1gmnkwh7qi4h4
+
+  Template for managing a stack to run the aws sam example
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  FibonacciFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src.lambda.fibonacci.lambda_handler
+      Runtime: python3.8
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /fibonacci
+            Method: get
+
+Outputs:
+  ApiBaseUrl:
+    Description: "API base url for deployed lambda functions"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
